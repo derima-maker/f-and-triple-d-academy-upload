@@ -177,20 +177,10 @@
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
         }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-        .toast.success {
-            background-color: #2e7d32;
-            color: white;
-        }
-        .toast.error {
-            background-color: #c62828;
-            color: white;
-        }
-        .toast .toast-icon {
-            font-size: 1.4rem;
-        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.success { background-color: #2e7d32; color: white; }
+        .toast.error { background-color: #c62828; color: white; }
+        .toast .toast-icon { font-size: 1.4rem; }
 
         /* Debug panel */
         .debug-panel { display: none; margin-top: 12px; padding: 12px;
@@ -567,6 +557,8 @@ async function confirmDelete() {
     btn.disabled = true;
     btn.textContent = 'Deleting...';
 
+    const beforeCount = (allData[pendingDelete.type] || []).length;
+
     try {
         const formData = new FormData();
         formData.append('payload', JSON.stringify({
@@ -576,15 +568,26 @@ async function confirmDelete() {
         }));
 
         debugLog('DELETE request → type=' + pendingDelete.type + ' row=' + pendingDelete.row);
-        const response = await fetch(CONFIG.apiUrl, { method: 'POST', body: formData });
-        const result = await response.json();
-        debugLog('DELETE response: ' + JSON.stringify(result));
 
-        if (result.status !== 'success') {
-            throw new Error(result.message || 'Delete failed');
-        }
-        showToast('success', 'Entry deleted successfully!');
+        await fetch(CONFIG.apiUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        });
+
+        debugLog('DELETE sent (no-cors) — waiting for server...');
+
+        await new Promise(r => setTimeout(r, 2500));
         await loadAllData();
+
+        const afterCount = (allData[pendingDelete.type] || []).length;
+        debugLog('Count before: ' + beforeCount + ' | after: ' + afterCount);
+
+        if (afterCount < beforeCount) {
+            showToast('success', 'Entry deleted successfully!');
+        } else {
+            throw new Error('The row still appears in the sheet.');
+        }
     } catch (err) {
         debugLog('DELETE ERROR: ' + err.message);
         showToast('error', 'Delete failed. Try again.');
@@ -614,28 +617,40 @@ async function submitForm(event, type) {
     status.textContent = '';
     status.style.display = 'none';
 
+    // Count entries BEFORE uploading to verify afterward
+    const beforeCount = (allData[type] || []).length;
+
     try {
         const formData = new FormData();
         formData.append('payload', JSON.stringify({ action: 'add', type: type, data: data }));
 
         debugLog('POST request → type=' + type + ' data=' + JSON.stringify(data));
-        const response = await fetch(CONFIG.apiUrl, { method: 'POST', body: formData });
-        const result = await response.json();
-        debugLog('POST response: ' + JSON.stringify(result));
 
-        if (result.status === 'success') {
-            // ✅ SUCCESS
+        // Use no-cors mode to bypass Apps Script's redirect CORS issue
+        await fetch(CONFIG.apiUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        });
+
+        debugLog('POST sent (no-cors) — waiting for server to write row...');
+
+        // Wait for Apps Script to actually write the row, then reload
+        await new Promise(r => setTimeout(r, 2500));
+        await loadAllData();
+
+        const afterCount = (allData[type] || []).length;
+        debugLog('Count before: ' + beforeCount + ' | after: ' + afterCount);
+
+        if (afterCount > beforeCount) {
             status.className = 'status-msg success';
             status.textContent = '✅ Saved! It appears on the website and in the list below.';
             showToast('success', 'Upload successful!');
             form.reset();
-            await loadAllData();
         } else {
-            // ❌ FAIL (server returned error)
-            throw new Error(result.message || 'Server returned an error');
+            throw new Error('The row did not appear in the sheet. Check the Apps Script deployment.');
         }
     } catch (err) {
-        // ❌ FAIL (network or thrown error)
         debugLog('POST ERROR: ' + err.message);
         status.className = 'status-msg error';
         status.textContent = '❌ Failed to upload. ' + (err.message || 'Check your connection.');
