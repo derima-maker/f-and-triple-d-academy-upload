@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1a3a6b">
+    <meta name="theme-color" content="#c62828">
     <title>Admin · F AND TRIPLE D ACADEMY</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,9 +14,9 @@
             --card-bg: #ffffff;
             --text-main: #050505;
             --text-muted: #52565c;
-            --accent-color: #1a3a6b;
-            --accent-hover: #0f2547;
-            --accent-soft: rgba(26, 58, 107, 0.1);
+            --accent-color: #c62828;
+            --accent-hover: #8e1c1c;
+            --accent-soft: rgba(198, 40, 40, 0.1);
             --border-color: #ced0d4;
             --input-bg: #f0f2f5;
             --success: #2e7d32;
@@ -28,9 +28,9 @@
             --card-bg: #242526;
             --text-main: #e4e6eb;
             --text-muted: #c4c7cc;
-            --accent-color: #7aa3e0;
-            --accent-hover: #9bbce8;
-            --accent-soft: rgba(122, 163, 224, 0.15);
+            --accent-color: #e53935;
+            --accent-hover: #ff5252;
+            --accent-soft: rgba(229, 57, 53, 0.15);
             --border-color: #3e4042;
             --input-bg: #3a3b3c;
         }
@@ -421,7 +421,7 @@ function showToast(type, message) {
     const text = document.getElementById('toastText');
 
     toast.classList.remove('success', 'error', 'show');
-    void toast.offsetWidth; // Force reflow so animation replays
+    void toast.offsetWidth;
 
     if (type === 'success') {
         icon.textContent = '✅';
@@ -560,8 +560,8 @@ async function confirmDelete() {
     const beforeCount = (allData[pendingDelete.type] || []).length;
 
     try {
-        const formData = new FormData();
-        formData.append('payload', JSON.stringify({
+        const params = new URLSearchParams();
+        params.append('payload', JSON.stringify({
             action: 'delete',
             type: pendingDelete.type,
             row: pendingDelete.row
@@ -572,7 +572,8 @@ async function confirmDelete() {
         await fetch(CONFIG.apiUrl, {
             method: 'POST',
             mode: 'no-cors',
-            body: formData
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
         });
 
         debugLog('DELETE sent (no-cors) — waiting for server...');
@@ -617,25 +618,23 @@ async function submitForm(event, type) {
     status.textContent = '';
     status.style.display = 'none';
 
-    // Count entries BEFORE uploading to verify afterward
     const beforeCount = (allData[type] || []).length;
 
     try {
-        const formData = new FormData();
-        formData.append('payload', JSON.stringify({ action: 'add', type: type, data: data }));
+        const params = new URLSearchParams();
+        params.append('payload', JSON.stringify({ action: 'add', type: type, data: data }));
 
         debugLog('POST request → type=' + type + ' data=' + JSON.stringify(data));
 
-        // Use no-cors mode to bypass Apps Script's redirect CORS issue
         await fetch(CONFIG.apiUrl, {
             method: 'POST',
             mode: 'no-cors',
-            body: formData
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
         });
 
         debugLog('POST sent (no-cors) — waiting for server to write row...');
 
-        // Wait for Apps Script to actually write the row, then reload
         await new Promise(r => setTimeout(r, 2500));
         await loadAllData();
 
