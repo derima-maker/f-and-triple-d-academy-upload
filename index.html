@@ -154,6 +154,44 @@
         .modal-confirm:hover { background-color: #a01e1e; }
         .modal-confirm:disabled { opacity: 0.6; cursor: not-allowed; }
 
+        /* ============================================================
+           TOAST NOTIFICATION
+           ============================================================ */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            padding: 16px 24px;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            font-size: 0.95rem;
+            font-weight: 600;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 90vw;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            background-color: #2e7d32;
+            color: white;
+        }
+        .toast.error {
+            background-color: #c62828;
+            color: white;
+        }
+        .toast .toast-icon {
+            font-size: 1.4rem;
+        }
+
         /* Debug panel */
         .debug-panel { display: none; margin-top: 12px; padding: 12px;
                        background-color: #1a1a1a; color: #0f0; border-radius: 8px;
@@ -163,6 +201,12 @@
     </style>
 </head>
 <body>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon">✅</span>
+    <span id="toastText">Message</span>
+</div>
 
 <div class="container">
     <div class="admin-header">
@@ -339,7 +383,6 @@
         </div>
     </div>
 
-    <!-- DEBUG PANEL (hidden by default) -->
     <div class="debug-panel" id="debugPanel"></div>
 </div>
 
@@ -376,6 +419,34 @@ function debugLog(msg) {
         panel.classList.add('visible');
         panel.scrollTop = panel.scrollHeight;
     }
+}
+
+/* ============================================================
+   TOAST HELPER
+   ============================================================ */
+let toastTimeout = null;
+function showToast(type, message) {
+    const toast = document.getElementById('toast');
+    const icon = document.getElementById('toastIcon');
+    const text = document.getElementById('toastText');
+
+    toast.classList.remove('success', 'error', 'show');
+    void toast.offsetWidth; // Force reflow so animation replays
+
+    if (type === 'success') {
+        icon.textContent = '✅';
+        toast.classList.add('success');
+    } else {
+        icon.textContent = '❌';
+        toast.classList.add('error');
+    }
+    text.textContent = message;
+    toast.classList.add('show');
+
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 4000);
 }
 
 /* ============================================================
@@ -509,11 +580,14 @@ async function confirmDelete() {
         const result = await response.json();
         debugLog('DELETE response: ' + JSON.stringify(result));
 
-        if (result.status !== 'success') throw new Error(result.message || 'Delete failed');
+        if (result.status !== 'success') {
+            throw new Error(result.message || 'Delete failed');
+        }
+        showToast('success', 'Entry deleted successfully!');
         await loadAllData();
     } catch (err) {
         debugLog('DELETE ERROR: ' + err.message);
-        alert('❌ Failed to delete: ' + err.message);
+        showToast('error', 'Delete failed. Try again.');
     } finally {
         btn.disabled = false;
         btn.textContent = 'Delete';
@@ -550,17 +624,22 @@ async function submitForm(event, type) {
         debugLog('POST response: ' + JSON.stringify(result));
 
         if (result.status === 'success') {
+            // ✅ SUCCESS
             status.className = 'status-msg success';
             status.textContent = '✅ Saved! It appears on the website and in the list below.';
+            showToast('success', 'Upload successful!');
             form.reset();
             await loadAllData();
         } else {
+            // ❌ FAIL (server returned error)
             throw new Error(result.message || 'Server returned an error');
         }
     } catch (err) {
+        // ❌ FAIL (network or thrown error)
         debugLog('POST ERROR: ' + err.message);
         status.className = 'status-msg error';
-        status.textContent = '❌ Failed to save. ' + (err.message || 'Check your connection.');
+        status.textContent = '❌ Failed to upload. ' + (err.message || 'Check your connection.');
+        showToast('error', 'Upload failed. Try again.');
     } finally {
         btn.disabled = false;
         btn.textContent = originalBtnText;
