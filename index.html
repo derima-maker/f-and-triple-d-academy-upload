@@ -23,7 +23,6 @@
             --danger: #c62828;
             --radius: 14px;
         }
-
         [data-theme="dark"] {
             --bg-color: #18191a;
             --card-bg: #242526;
@@ -35,231 +34,132 @@
             --border-color: #3e4042;
             --input-bg: #3a3b3c;
         }
-
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
+            -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh;
+               transition: background-color 0.3s, color 0.3s; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px 14px 60px; }
 
-        /* HEADER */
-        .admin-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px;
-        }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .admin-header .brand { display: flex; align-items: center; gap: 10px; }
-        .admin-header .brand-logo {
-            width: 36px; height: 36px; border-radius: 50%;
-            object-fit: cover; border: 2px solid var(--accent-color);
-        }
-        .admin-header .brand-text {
-            font-size: 0.85rem; font-weight: 800;
-            color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.4px;
-        }
-        .admin-header .back-btn {
-            background-color: var(--input-bg); border: 1px solid var(--border-color);
-            color: var(--text-main); padding: 8px 14px; border-radius: 20px;
-            font-family: inherit; font-size: 0.78rem; font-weight: 600;
-            cursor: pointer; text-decoration: none; display: inline-block;
-        }
+        .admin-header .brand-logo { width: 36px; height: 36px; border-radius: 50%;
+                                    object-fit: cover; border: 2px solid var(--accent-color); }
+        .admin-header .brand-text { font-size: 0.85rem; font-weight: 800; color: var(--accent-color);
+                                    text-transform: uppercase; letter-spacing: 0.4px; }
+        .admin-header .back-btn { background-color: var(--input-bg); border: 1px solid var(--border-color);
+                                  color: var(--text-main); padding: 8px 14px; border-radius: 20px;
+                                  font-family: inherit; font-size: 0.78rem; font-weight: 600;
+                                  cursor: pointer; text-decoration: none; display: inline-block; }
         .admin-header .back-btn:hover { background-color: var(--border-color); }
 
-        /* TABS */
-        .tabs {
-            display: flex; gap: 6px; overflow-x: auto;
-            padding-bottom: 14px; margin-bottom: 6px; scrollbar-width: none;
-        }
+        .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px;
+                margin-bottom: 6px; scrollbar-width: none; }
         .tabs::-webkit-scrollbar { display: none; }
-        .tab {
-            flex-shrink: 0; padding: 9px 16px; border-radius: 20px;
-            border: 1px solid var(--border-color); background-color: var(--card-bg);
-            color: var(--text-muted); font-size: 0.78rem; font-weight: 600;
-            font-family: inherit; cursor: pointer; transition: all 0.2s;
-        }
+        .tab { flex-shrink: 0; padding: 9px 16px; border-radius: 20px;
+               border: 1px solid var(--border-color); background-color: var(--card-bg);
+               color: var(--text-muted); font-size: 0.78rem; font-weight: 600;
+               font-family: inherit; cursor: pointer; transition: all 0.2s; }
         .tab.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .tab-panel { display: none; }
         .tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* FORM */
-        .form-card {
-            background-color: var(--card-bg); border-radius: var(--radius);
-            padding: 20px 18px; border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 16px;
-        }
-        .form-card h2 {
-            font-size: 1rem; font-weight: 700; color: var(--accent-color); margin-bottom: 4px;
-        }
+        .form-card { background-color: var(--card-bg); border-radius: var(--radius);
+                     padding: 20px 18px; border: 1px solid var(--border-color);
+                     box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 16px; }
+        .form-card h2 { font-size: 1rem; font-weight: 700; color: var(--accent-color); margin-bottom: 4px; }
         .form-card .form-desc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px; }
         .form-group { margin-bottom: 14px; }
-        .form-group label {
-            display: block; font-size: 0.78rem; font-weight: 600;
-            margin-bottom: 5px; color: var(--text-main);
-        }
+        .form-group label { display: block; font-size: 0.78rem; font-weight: 600;
+                            margin-bottom: 5px; color: var(--text-main); }
         .form-group label .required { color: var(--danger); margin-left: 2px; }
-        .form-group input, .form-group textarea, .form-group select {
+        .form-group input, .form-group textarea {
             width: 100%; padding: 11px 13px; border-radius: 10px;
             border: 1px solid var(--border-color); background-color: var(--input-bg);
             color: var(--text-main); font-family: inherit; font-size: 0.9rem;
-            outline: none; transition: border-color 0.2s;
-        }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            border-color: var(--accent-color);
-        }
+            outline: none; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-color); }
         .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
 
-        .submit-btn {
-            width: 100%; padding: 13px; border-radius: 10px; border: none;
-            background-color: var(--accent-color); color: white;
-            font-family: inherit; font-size: 0.92rem; font-weight: 600;
-            cursor: pointer; transition: background-color 0.2s, transform 0.1s; margin-top: 6px;
-        }
+        .submit-btn { width: 100%; padding: 13px; border-radius: 10px; border: none;
+                      background-color: var(--accent-color); color: white;
+                      font-family: inherit; font-size: 0.92rem; font-weight: 600;
+                      cursor: pointer; transition: background-color 0.2s, transform 0.1s; margin-top: 6px; }
         .submit-btn:hover { background-color: var(--accent-hover); }
         .submit-btn:active { transform: scale(0.98); }
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .status-msg {
-            margin-top: 14px; padding: 10px 14px; border-radius: 10px;
-            font-size: 0.85rem; display: none; text-align: center; font-weight: 500;
-        }
-        .status-msg.success {
-            background-color: rgba(46, 125, 50, 0.1); color: var(--success);
-            border: 1px solid var(--success); display: block;
-        }
-        .status-msg.error {
-            background-color: rgba(198, 40, 40, 0.1); color: var(--danger);
-            border: 1px solid var(--danger); display: block;
-        }
+        .status-msg { margin-top: 14px; padding: 10px 14px; border-radius: 10px;
+                      font-size: 0.85rem; display: none; text-align: center; font-weight: 500; }
+        .status-msg.success { background-color: rgba(46, 125, 50, 0.1); color: var(--success);
+                              border: 1px solid var(--success); display: block; }
+        .status-msg.error { background-color: rgba(198, 40, 40, 0.1); color: var(--danger);
+                            border: 1px solid var(--danger); display: block; }
 
-        .info-note {
-            background-color: var(--accent-soft); border-left: 3px solid var(--accent-color);
-            padding: 10px 14px; border-radius: 8px; font-size: 0.78rem;
-            color: var(--text-muted); margin-top: 16px; line-height: 1.5;
-        }
+        .info-note { background-color: var(--accent-soft); border-left: 3px solid var(--accent-color);
+                     padding: 10px 14px; border-radius: 8px; font-size: 0.78rem;
+                     color: var(--text-muted); margin-top: 16px; line-height: 1.5; }
 
-        /* ENTRIES LIST */
-        .entries-card {
-            background-color: var(--card-bg); border-radius: var(--radius);
-            padding: 18px; border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
-        .entries-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 12px;
-        }
-        .entries-header h3 {
-            font-size: 0.9rem; font-weight: 700; color: var(--text-main);
-        }
-        .entries-header .count {
-            font-size: 0.72rem; font-weight: 600; color: var(--text-muted);
-            background-color: var(--input-bg); padding: 3px 10px; border-radius: 12px;
-        }
-        .entries-header .refresh-btn {
-            background: none; border: none; color: var(--accent-color);
-            font-family: inherit; font-size: 0.75rem; font-weight: 600;
-            cursor: pointer; padding: 4px 8px; border-radius: 6px;
-        }
+        .entries-card { background-color: var(--card-bg); border-radius: var(--radius);
+                        padding: 18px; border: 1px solid var(--border-color);
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        .entries-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .entries-header h3 { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+        .entries-header .count { font-size: 0.72rem; font-weight: 600; color: var(--text-muted);
+                                 background-color: var(--input-bg); padding: 3px 10px; border-radius: 12px; }
+        .entries-header .refresh-btn { background: none; border: none; color: var(--accent-color);
+                                       font-family: inherit; font-size: 0.75rem; font-weight: 600;
+                                       cursor: pointer; padding: 4px 8px; border-radius: 6px; }
         .entries-header .refresh-btn:hover { background-color: var(--accent-soft); }
-        .entries-header .refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
         .entries-list { display: flex; flex-direction: column; gap: 8px; }
-
-        .entry-row {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px 12px; border-radius: 10px;
-            background-color: var(--input-bg); border: 1px solid transparent;
-            transition: border-color 0.2s;
-        }
+        .entry-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+                     border-radius: 10px; background-color: var(--input-bg);
+                     border: 1px solid transparent; transition: border-color 0.2s; }
         .entry-row:hover { border-color: var(--border-color); }
-
         .entry-info { flex: 1; min-width: 0; }
-        .entry-main {
-            font-size: 0.85rem; font-weight: 500; color: var(--text-main);
-            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-        }
-        .entry-meta {
-            font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;
-        }
-
-        .entry-delete {
-            flex-shrink: 0; background: none; border: none; cursor: pointer;
-            font-size: 1rem; padding: 6px 8px; border-radius: 8px;
-            color: var(--text-muted); transition: all 0.2s;
-        }
-        .entry-delete:hover {
-            background-color: rgba(198, 40, 40, 0.1); color: var(--danger);
-        }
-        .entry-delete:disabled { opacity: 0.4; cursor: not-allowed; }
-
-        .entries-empty {
-            text-align: center; padding: 24px 12px;
-            font-size: 0.8rem; color: var(--text-muted);
-        }
-
-        .entries-loading {
-            text-align: center; padding: 20px;
-            font-size: 0.8rem; color: var(--text-muted);
-        }
-        .entries-loading .spinner {
-            display: inline-block; width: 16px; height: 16px;
-            border: 2px solid var(--border-color); border-top-color: var(--accent-color);
-            border-radius: 50%; animation: spin 0.7s linear infinite;
-            vertical-align: middle; margin-right: 6px;
-        }
+        .entry-main { font-size: 0.85rem; font-weight: 500; color: var(--text-main);
+                      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .entry-meta { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+        .entry-delete { flex-shrink: 0; background: none; border: none; cursor: pointer;
+                        font-size: 1rem; padding: 6px 8px; border-radius: 8px;
+                        color: var(--text-muted); transition: all 0.2s; }
+        .entry-delete:hover { background-color: rgba(198, 40, 40, 0.1); color: var(--danger); }
+        .entries-empty { text-align: center; padding: 24px 12px; font-size: 0.8rem; color: var(--text-muted); }
+        .entries-loading { text-align: center; padding: 20px; font-size: 0.8rem; color: var(--text-muted); }
+        .entries-loading .spinner { display: inline-block; width: 16px; height: 16px;
+                                    border: 2px solid var(--border-color); border-top-color: var(--accent-color);
+                                    border-radius: 50%; animation: spin 0.7s linear infinite;
+                                    vertical-align: middle; margin-right: 6px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* CONFIRM MODAL */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0, 0, 0, 0.6); z-index: 9999;
-            align-items: center; justify-content: center; padding: 20px;
-        }
+        .modal-overlay { display: none; position: fixed; inset: 0;
+                         background: rgba(0, 0, 0, 0.6); z-index: 9999;
+                         align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
-        .modal {
-            background-color: var(--card-bg); border-radius: var(--radius);
-            padding: 24px 20px; max-width: 340px; width: 100%;
-            border: 1px solid var(--border-color);
-            animation: modalIn 0.2s ease;
-        }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .modal h3 {
-            font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);
-        }
-        .modal p {
-            font-size: 0.85rem; color: var(--text-muted);
-            margin-bottom: 20px; line-height: 1.5;
-        }
+        .modal { background-color: var(--card-bg); border-radius: var(--radius);
+                 padding: 24px 20px; max-width: 340px; width: 100%;
+                 border: 1px solid var(--border-color); animation: modalIn 0.2s ease; }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+        .modal p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
         .modal-actions { display: flex; gap: 10px; }
-        .modal-actions button {
-            flex: 1; padding: 11px; border-radius: 10px; border: none;
-            font-family: inherit; font-size: 0.88rem; font-weight: 600;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .modal-cancel {
-            background-color: var(--input-bg); color: var(--text-main);
-            border: 1px solid var(--border-color) !important;
-        }
+        .modal-actions button { flex: 1; padding: 11px; border-radius: 10px; border: none;
+                                font-family: inherit; font-size: 0.88rem; font-weight: 600;
+                                cursor: pointer; transition: all 0.2s; }
+        .modal-cancel { background-color: var(--input-bg); color: var(--text-main);
+                        border: 1px solid var(--border-color) !important; }
         .modal-cancel:hover { background-color: var(--border-color); }
-        .modal-confirm {
-            background-color: var(--danger); color: white;
-        }
+        .modal-confirm { background-color: var(--danger); color: white; }
         .modal-confirm:hover { background-color: #a01e1e; }
         .modal-confirm:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Debug panel */
+        .debug-panel { display: none; margin-top: 12px; padding: 12px;
+                       background-color: #1a1a1a; color: #0f0; border-radius: 8px;
+                       font-family: monospace; font-size: 0.7rem; line-height: 1.4;
+                       max-height: 200px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+        .debug-panel.visible { display: block; }
     </style>
 </head>
 <body>
@@ -267,7 +167,7 @@
 <div class="container">
     <div class="admin-header">
         <div class="brand">
-            <img src="https://dl.dropboxusercontent.com/scl/fi/rdej9enx2pnsktjjuviv4/1790280398985.jpg?rlkey=12t90yeb0o50yqfz5ndqomxz3&st=59kxo5d7&dl=1" 
+            <img src="https://dl.dropboxusercontent.com/scl/fi/rdej9enx2pnsktjjuviv4/1790280398985.jpg?rlkey=12t90yeb0o50yqfz5ndqomxz3&st=59kxo5d7&dl=1"
                  alt="Logo" class="brand-logo"
                  onerror="this.style.display='none';">
             <span class="brand-text">Admin Panel</span>
@@ -438,13 +338,15 @@
             </div>
         </div>
     </div>
+
+    <!-- DEBUG PANEL (hidden by default) -->
+    <div class="debug-panel" id="debugPanel"></div>
 </div>
 
-<!-- CONFIRM DELETE MODAL -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal">
         <h3>Delete this entry?</h3>
-        <p id="deleteModalText">This action cannot be undone. The entry will be removed from the website immediately.</p>
+        <p id="deleteModalText">This action cannot be undone.</p>
         <div class="modal-actions">
             <button class="modal-cancel" onclick="closeDeleteModal()">Cancel</button>
             <button class="modal-confirm" id="deleteConfirmBtn" onclick="confirmDelete()">Delete</button>
@@ -461,7 +363,20 @@ const CONFIG = {
 };
 
 let allData = { updates: [], calendar: [], words: [], hairstyles: [], roaster: [] };
-let pendingDelete = null; // { type, row, preview }
+let pendingDelete = null;
+
+/* ============================================================
+   DEBUG LOGGER
+   ============================================================ */
+function debugLog(msg) {
+    console.log(msg);
+    const panel = document.getElementById('debugPanel');
+    if (panel) {
+        panel.textContent += '\n[' + new Date().toLocaleTimeString() + '] ' + msg;
+        panel.classList.add('visible');
+        panel.scrollTop = panel.scrollHeight;
+    }
+}
 
 /* ============================================================
    TABS
@@ -479,8 +394,6 @@ function switchTab(tabId, element) {
    ============================================================ */
 async function loadAllData(showFeedback = false) {
     const containerIds = ['updates', 'words', 'calendar', 'hairstyles', 'roaster'];
-    
-    // Show loading state in all lists
     containerIds.forEach(type => {
         const el = document.getElementById(type + 'Entries');
         if (el) el.innerHTML = '<div class="entries-loading"><span class="spinner"></span>Loading...</div>';
@@ -491,9 +404,7 @@ async function loadAllData(showFeedback = false) {
         if (!response.ok) throw new Error('HTTP ' + response.status);
         allData = await response.json();
         renderAllEntries();
-        
         if (showFeedback) {
-            // Brief visual confirmation of refresh
             document.querySelectorAll('.refresh-btn').forEach(btn => {
                 const orig = btn.textContent;
                 btn.textContent = '✅';
@@ -501,7 +412,7 @@ async function loadAllData(showFeedback = false) {
             });
         }
     } catch (err) {
-        console.error('Load error:', err);
+        debugLog('LOAD ERROR: ' + err.message);
         containerIds.forEach(type => {
             const el = document.getElementById(type + 'Entries');
             if (el) el.innerHTML = '<div class="entries-empty">⚠️ Could not load. Check connection.</div>';
@@ -517,22 +428,18 @@ function renderAllEntries() {
         main: item.PostText || '(no text)',
         meta: `Row ${item._row}${item.Date ? ' • ' + formatDate(item.Date) : ''}`
     }));
-
     renderEntries('words', allData.words || [], item => ({
         main: `Week ${item.Week}: ${item.Word || ''}`,
         meta: `Row ${item._row}`
     }));
-
     renderEntries('calendar', allData.calendar || [], item => ({
         main: `Week ${item.Week}: ${item.Activity || ''}`,
         meta: `Row ${item._row}${item.Date ? ' • ' + item.Date : ''}`
     }));
-
     renderEntries('hairstyles', allData.hairstyles || [], item => ({
         main: `Week ${item.Week}: ${item.Hairstyle || ''}`,
         meta: `Row ${item._row}`
     }));
-
     renderEntries('roaster', allData.roaster || [], item => ({
         main: `Week ${item.Week}: ${item.Teacher || ''}`,
         meta: `Row ${item._row}`
@@ -550,9 +457,7 @@ function renderEntries(type, items, mapper) {
         return;
     }
 
-    // Show newest at the top
     const reversed = [...items].reverse();
-
     listEl.innerHTML = reversed.map(item => {
         const { main, meta } = mapper(item);
         return `
@@ -561,7 +466,7 @@ function renderEntries(type, items, mapper) {
                     <div class="entry-main" title="${escapeHtml(main)}">${escapeHtml(main)}</div>
                     <div class="entry-meta">${escapeHtml(meta)}</div>
                 </div>
-                <button class="entry-delete" 
+                <button class="entry-delete"
                         onclick="requestDelete('${type}', ${item._row}, '${escapeJs(main)}')"
                         title="Delete this entry">🗑️</button>
             </div>
@@ -574,7 +479,7 @@ function renderEntries(type, items, mapper) {
    ============================================================ */
 function requestDelete(type, row, preview) {
     pendingDelete = { type, row, preview };
-    document.getElementById('deleteModalText').innerHTML = 
+    document.getElementById('deleteModalText').innerHTML =
         `This action cannot be undone. The entry will be removed from the website immediately.<br><br>
          <strong>Entry:</strong> ${escapeHtml(preview)}`;
     document.getElementById('deleteModal').classList.add('active');
@@ -592,23 +497,22 @@ async function confirmDelete() {
     btn.textContent = 'Deleting...';
 
     try {
-        const response = await fetch(CONFIG.apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-                action: 'delete',
-                type: pendingDelete.type,
-                row: pendingDelete.row
-            })
-        });
+        const formData = new FormData();
+        formData.append('payload', JSON.stringify({
+            action: 'delete',
+            type: pendingDelete.type,
+            row: pendingDelete.row
+        }));
+
+        debugLog('DELETE request → type=' + pendingDelete.type + ' row=' + pendingDelete.row);
+        const response = await fetch(CONFIG.apiUrl, { method: 'POST', body: formData });
         const result = await response.json();
-        if (result.status !== 'success') {
-            throw new Error(result.message || 'Delete failed');
-        }
-        // Reload fresh data
+        debugLog('DELETE response: ' + JSON.stringify(result));
+
+        if (result.status !== 'success') throw new Error(result.message || 'Delete failed');
         await loadAllData();
     } catch (err) {
-        console.error('Delete error:', err);
+        debugLog('DELETE ERROR: ' + err.message);
         alert('❌ Failed to delete: ' + err.message);
     } finally {
         btn.disabled = false;
@@ -637,23 +541,24 @@ async function submitForm(event, type) {
     status.style.display = 'none';
 
     try {
-        const response = await fetch(CONFIG.apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'add', type: type, data: data })
-        });
+        const formData = new FormData();
+        formData.append('payload', JSON.stringify({ action: 'add', type: type, data: data }));
+
+        debugLog('POST request → type=' + type + ' data=' + JSON.stringify(data));
+        const response = await fetch(CONFIG.apiUrl, { method: 'POST', body: formData });
         const result = await response.json();
+        debugLog('POST response: ' + JSON.stringify(result));
+
         if (result.status === 'success') {
             status.className = 'status-msg success';
             status.textContent = '✅ Saved! It appears on the website and in the list below.';
             form.reset();
-            // Refresh list so the new entry shows up
             await loadAllData();
         } else {
             throw new Error(result.message || 'Server returned an error');
         }
     } catch (err) {
-        console.error('Submit error:', err);
+        debugLog('POST ERROR: ' + err.message);
         status.className = 'status-msg error';
         status.textContent = '❌ Failed to save. ' + (err.message || 'Check your connection.');
     } finally {
@@ -695,7 +600,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAllData();
 });
 
-// Close modal when clicking outside it
 document.getElementById('deleteModal').addEventListener('click', (e) => {
     if (e.target.id === 'deleteModal') closeDeleteModal();
 });
