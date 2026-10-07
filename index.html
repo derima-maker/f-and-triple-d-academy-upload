@@ -154,9 +154,6 @@
         .modal-confirm:hover { background-color: #a01e1e; }
         .modal-confirm:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* ============================================================
-           TOAST NOTIFICATION
-           ============================================================ */
         .toast {
             position: fixed;
             top: 20px;
@@ -182,7 +179,6 @@
         .toast.error { background-color: #c62828; color: white; }
         .toast .toast-icon { font-size: 1.4rem; }
 
-        /* Debug panel */
         .debug-panel { display: none; margin-top: 12px; padding: 12px;
                        background-color: #1a1a1a; color: #0f0; border-radius: 8px;
                        font-family: monospace; font-size: 0.7rem; line-height: 1.4;
@@ -192,7 +188,6 @@
 </head>
 <body>
 
-<!-- TOAST NOTIFICATION -->
 <div class="toast" id="toast">
     <span class="toast-icon" id="toastIcon">✅</span>
     <span id="toastText">Message</span>
@@ -217,7 +212,6 @@
         <button class="tab" onclick="switchTab('roaster', this)">Roaster</button>
     </div>
 
-    <!-- UPDATES -->
     <div id="updatesPanel" class="tab-panel active">
         <div class="form-card">
             <h2>Post a New Update</h2>
@@ -253,7 +247,6 @@
         </div>
     </div>
 
-    <!-- WORDS -->
     <div id="wordsPanel" class="tab-panel">
         <div class="form-card">
             <h2>Words of the Week</h2>
@@ -282,7 +275,6 @@
         </div>
     </div>
 
-    <!-- CALENDAR -->
     <div id="calendarPanel" class="tab-panel">
         <div class="form-card">
             <h2>Academic Calendar</h2>
@@ -315,7 +307,6 @@
         </div>
     </div>
 
-    <!-- HAIRSTYLES -->
     <div id="hairstylesPanel" class="tab-panel">
         <div class="form-card">
             <h2>Hairstyles for the Week</h2>
@@ -344,7 +335,6 @@
         </div>
     </div>
 
-    <!-- ROASTER -->
     <div id="roasterPanel" class="tab-panel">
         <div class="form-card">
             <h2>Staff Duty Roaster</h2>
@@ -388,19 +378,13 @@
 </div>
 
 <script>
-/* ============================================================
-   CONFIG
-   ============================================================ */
 const CONFIG = {
-    apiUrl: 'https://script.google.com/macros/s/AKfycbyfHevn3f_zqBqWsgn73szoyjvPYRiTxDD5y23XFd-jzAOU-WdEn8iGcTqhMcxwMeSZyg/exec'
+    apiUrl: 'https://script.google.com/macros/s/AKfycbzrpjBizNTArKuoqzn6HpqfGQB_sxUGZks3zr0za9DCWbs56c710maGXtz5nHHoe9bdaw/exec'
 };
 
 let allData = { updates: [], calendar: [], words: [], hairstyles: [], roaster: [] };
 let pendingDelete = null;
 
-/* ============================================================
-   DEBUG LOGGER
-   ============================================================ */
 function debugLog(msg) {
     console.log(msg);
     const panel = document.getElementById('debugPanel');
@@ -411,37 +395,21 @@ function debugLog(msg) {
     }
 }
 
-/* ============================================================
-   TOAST HELPER
-   ============================================================ */
 let toastTimeout = null;
 function showToast(type, message) {
     const toast = document.getElementById('toast');
     const icon = document.getElementById('toastIcon');
     const text = document.getElementById('toastText');
-
     toast.classList.remove('success', 'error', 'show');
     void toast.offsetWidth;
-
-    if (type === 'success') {
-        icon.textContent = '✅';
-        toast.classList.add('success');
-    } else {
-        icon.textContent = '❌';
-        toast.classList.add('error');
-    }
+    if (type === 'success') { icon.textContent = '✅'; toast.classList.add('success'); }
+    else { icon.textContent = '❌'; toast.classList.add('error'); }
     text.textContent = message;
     toast.classList.add('show');
-
     if (toastTimeout) clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-    }, 4000);
+    toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 4000);
 }
 
-/* ============================================================
-   TABS
-   ============================================================ */
 function switchTab(tabId, element) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     element.classList.add('active');
@@ -450,9 +418,6 @@ function switchTab(tabId, element) {
     if (panel) panel.classList.add('active');
 }
 
-/* ============================================================
-   LOAD DATA
-   ============================================================ */
 async function loadAllData(showFeedback = false) {
     const containerIds = ['updates', 'words', 'calendar', 'hairstyles', 'roaster'];
     containerIds.forEach(type => {
@@ -481,9 +446,6 @@ async function loadAllData(showFeedback = false) {
     }
 }
 
-/* ============================================================
-   RENDER ENTRIES
-   ============================================================ */
 function renderAllEntries() {
     renderEntries('updates', allData.updates || [], item => ({
         main: item.PostText || '(no text)',
@@ -535,9 +497,6 @@ function renderEntries(type, items, mapper) {
     }).join('');
 }
 
-/* ============================================================
-   DELETE
-   ============================================================ */
 function requestDelete(type, row, preview) {
     pendingDelete = { type, row, preview };
     document.getElementById('deleteModalText').innerHTML =
@@ -577,7 +536,6 @@ async function confirmDelete() {
         });
 
         debugLog('DELETE sent (no-cors) — waiting for server...');
-
         await new Promise(r => setTimeout(r, 2500));
         await loadAllData();
 
@@ -599,9 +557,6 @@ async function confirmDelete() {
     }
 }
 
-/* ============================================================
-   SUBMIT NEW ENTRY
-   ============================================================ */
 async function submitForm(event, type) {
     event.preventDefault();
     const form = event.target;
@@ -634,7 +589,6 @@ async function submitForm(event, type) {
         });
 
         debugLog('POST sent (no-cors) — waiting for server to write row...');
-
         await new Promise(r => setTimeout(r, 2500));
         await loadAllData();
 
@@ -660,9 +614,6 @@ async function submitForm(event, type) {
     }
 }
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
 function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = String(str);
@@ -686,9 +637,6 @@ function formatDate(dateStr) {
     } catch { return dateStr; }
 }
 
-/* ============================================================
-   INIT
-   ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     loadAllData();
 });
